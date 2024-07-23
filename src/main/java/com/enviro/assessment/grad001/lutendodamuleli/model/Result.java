@@ -3,8 +3,6 @@ package com.enviro.assessment.grad001.lutendodamuleli.model;
 import com.opencsv.bean.CsvBindByName;
 import lombok.*;
 
-import java.util.Date;
-
 @Getter @Setter
 @AllArgsConstructor
 @NoArgsConstructor
