@@ -11,7 +11,7 @@ import java.util.Date;
 @Builder
 public class Result {
     @CsvBindByName(column = "Date")
-    private Date date;
+    private String date;
     @CsvBindByName(column = "Location")
     private String location;
     @CsvBindByName(column = "Temperature")
