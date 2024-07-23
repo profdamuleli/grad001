@@ -1,7 +1,9 @@
 package com.enviro.assessment.grad001.lutendodamuleli.controller;
 
 import com.enviro.assessment.grad001.lutendodamuleli.model.EnvironmentalData;
+import com.enviro.assessment.grad001.lutendodamuleli.model.Result;
 import com.enviro.assessment.grad001.lutendodamuleli.service.EnvironmentalDataService;
+import com.enviro.assessment.grad001.lutendodamuleli.service.FileProcessingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,16 @@ public class FileUploadController {
         } catch (IOException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to upload file: " + file.getOriginalFilename());
+        }
+    }
+
+    @GetMapping("/results/{id}")
+    public ResponseEntity<Result> getProcessedData(@PathVariable Long id) {
+        Result result = environmentalDataService.getResultById(id);
+        if (result != null) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.notFound().build();
         }
     }
 
