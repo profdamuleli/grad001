@@ -3,7 +3,6 @@ package com.enviro.assessment.grad001.lutendodamuleli.controller;
 import com.enviro.assessment.grad001.lutendodamuleli.model.EnvironmentalData;
 import com.enviro.assessment.grad001.lutendodamuleli.model.Result;
 import com.enviro.assessment.grad001.lutendodamuleli.service.EnvironmentalDataService;
-import com.enviro.assessment.grad001.lutendodamuleli.service.FileProcessingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api")
@@ -26,6 +26,7 @@ public class FileUploadController {
             byte[] fileData = file.getBytes();
 
             environmentalDataService.processAndSaveData(fileName, fileData);
+            //Todo : retrieve data from the file and save into the database
 
             return ResponseEntity.ok("File uploaded successfully: " + fileName);
         } catch (IOException e) {
@@ -35,8 +36,8 @@ public class FileUploadController {
     }
 
     @GetMapping("/results/{id}")
-    public ResponseEntity<Result> getProcessedData(@PathVariable Long id) {
-        Result result = environmentalDataService.getResultById(id);
+    public ResponseEntity<Set<Result>> getProcessedData(@PathVariable Long id) {
+        Set<Result> result = environmentalDataService.getResultById(id);
         if (result != null) {
             return ResponseEntity.ok(result);
         } else {

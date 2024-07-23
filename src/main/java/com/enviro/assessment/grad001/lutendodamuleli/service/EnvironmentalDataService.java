@@ -5,9 +5,12 @@ import com.enviro.assessment.grad001.lutendodamuleli.model.Result;
 import com.enviro.assessment.grad001.lutendodamuleli.repository.EnvironmentalDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class EnvironmentalDataService {
@@ -26,10 +29,14 @@ public class EnvironmentalDataService {
         environmentalDataRepository.save(data);
     }
 
-    public Result getResultById(Long id) {
+    public Set<Result> getResultById(Long id) {
         Optional<EnvironmentalData> byId = environmentalDataRepository.findById(id);
-        //fileProcessingService.processFile()
-        return new Result();
+        try {
+            MultipartFile file = fileProcessingService.convertByteIntoFile(byId.get().getFileData(), byId.get().getFileName());
+            return fileProcessingService.processFile(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<EnvironmentalData> getAllData() {
