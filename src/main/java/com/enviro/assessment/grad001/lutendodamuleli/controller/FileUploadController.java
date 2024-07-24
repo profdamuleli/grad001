@@ -26,7 +26,6 @@ public class FileUploadController {
             byte[] fileData = file.getBytes();
 
             environmentalDataService.processAndSaveData(file, fileName, fileData);
-            //Todo : retrieve data from the file and save into the database
 
             return ResponseEntity.ok("File uploaded successfully: " + fileName);
         } catch (IOException e) {

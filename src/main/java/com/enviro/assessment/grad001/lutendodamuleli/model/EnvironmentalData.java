@@ -1,5 +1,6 @@
 package com.enviro.assessment.grad001.lutendodamuleli.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.opencsv.bean.CsvBindByName;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,6 +23,7 @@ public class EnvironmentalData {
     @CsvBindByName(column = "Humidity")
     private Integer humidity;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_information_id")
     private FileInformation fileInformation;
