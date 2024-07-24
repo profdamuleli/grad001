@@ -47,12 +47,7 @@ public class EnvironmentalDataService {
 
     public Set<EnvironmentalData> getResultById(Long id) {
         Optional<FileInformation> byId = fileUploadRepository.findById(id);
-        try {
-            MultipartFile file = convertByteIntoFile(byId.get().getFileData(), byId.get().getFileName());
-            return processFile(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return byId.get().getEnvironmentalData();
     }
 
     public List<FileInformation> getAllData() {
