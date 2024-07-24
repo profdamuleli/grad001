@@ -1,6 +1,6 @@
 package com.enviro.assessment.grad001.lutendodamuleli.util;
 
-import com.enviro.assessment.grad001.lutendodamuleli.model.Result;
+import com.enviro.assessment.grad001.lutendodamuleli.model.EnvironmentalData;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
@@ -17,22 +17,23 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ConvertionUtil {
-    public static Set<Result> processFile(MultipartFile file) throws IOException {
+    public static Set<EnvironmentalData> processFile(MultipartFile file) throws IOException {
         // Implement file processing logic here
         // Example: read, parse, validate, and save data
         try(Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-            HeaderColumnNameMappingStrategy<Result> strategy =
+            HeaderColumnNameMappingStrategy<EnvironmentalData> strategy =
                     new HeaderColumnNameMappingStrategy<>();
-            strategy.setType(Result.class);
-            CsvToBean<Result> csvToBean =
-                    new CsvToBeanBuilder<Result>(reader)
+            strategy.setType(EnvironmentalData.class);
+            CsvToBean<EnvironmentalData> csvToBean =
+                    new CsvToBeanBuilder<EnvironmentalData>(reader)
                             .withMappingStrategy(strategy)
                             .withIgnoreEmptyLine(true)
                             .withIgnoreLeadingWhiteSpace(true)
                             .build();
+
             return csvToBean.parse()
                     .stream()
-                    .map(csvLine -> Result.builder()
+                    .map(csvLine -> EnvironmentalData.builder()
                             .date(csvLine.getDate())
                             .location(csvLine.getLocation())
                             .temperature(csvLine.getTemperature())
@@ -40,7 +41,6 @@ public class ConvertionUtil {
                             .build()
                     )
                     .collect(Collectors.toSet());
-
         }
     }
 

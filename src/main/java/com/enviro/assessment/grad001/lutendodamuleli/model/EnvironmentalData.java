@@ -1,18 +1,28 @@
 package com.enviro.assessment.grad001.lutendodamuleli.model;
 
+import com.opencsv.bean.CsvBindByName;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Entity
 @Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
 public class EnvironmentalData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @CsvBindByName(column = "Date")
+    private String date;
+    @CsvBindByName(column = "Location")
+    private String location;
+    @CsvBindByName(column = "Temperature")
+    private Integer temperature;
+    @CsvBindByName(column = "Humidity")
+    private Integer humidity;
 
-    private String fileName;
-
-    @Lob
-    private byte[] fileData;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_information_id")
+    private FileInformation fileInformation;
 }

@@ -1,7 +1,7 @@
 package com.enviro.assessment.grad001.lutendodamuleli.controller;
 
+import com.enviro.assessment.grad001.lutendodamuleli.model.FileInformation;
 import com.enviro.assessment.grad001.lutendodamuleli.model.EnvironmentalData;
-import com.enviro.assessment.grad001.lutendodamuleli.model.Result;
 import com.enviro.assessment.grad001.lutendodamuleli.service.EnvironmentalDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class FileUploadController {
             String fileName = file.getOriginalFilename();
             byte[] fileData = file.getBytes();
 
-            environmentalDataService.processAndSaveData(fileName, fileData);
+            environmentalDataService.processAndSaveData(file, fileName, fileData);
             //Todo : retrieve data from the file and save into the database
 
             return ResponseEntity.ok("File uploaded successfully: " + fileName);
@@ -36,8 +36,8 @@ public class FileUploadController {
     }
 
     @GetMapping("/results/{id}")
-    public ResponseEntity<Set<Result>> getProcessedData(@PathVariable Long id) {
-        Set<Result> result = environmentalDataService.getResultById(id);
+    public ResponseEntity<Set<EnvironmentalData>> getProcessedData(@PathVariable Long id) {
+        Set<EnvironmentalData> result = environmentalDataService.getResultById(id);
         if (result != null) {
             return ResponseEntity.ok(result);
         } else {
@@ -46,8 +46,8 @@ public class FileUploadController {
     }
 
     @GetMapping("/results")
-    public ResponseEntity<List<EnvironmentalData>> getAllData() {
-        List<EnvironmentalData> data = environmentalDataService.getAllData();
+    public ResponseEntity<List<FileInformation>> getAllData() {
+        List<FileInformation> data = environmentalDataService.getAllData();
         return ResponseEntity.ok(data);
     }
 }
