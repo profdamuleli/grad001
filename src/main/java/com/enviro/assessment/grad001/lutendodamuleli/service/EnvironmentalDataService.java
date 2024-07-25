@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -49,16 +51,25 @@ public class EnvironmentalDataService {
         fileUploadRepository.save(fileInformation);
     }
 
-    public Set<EnvironmentalData> getResultById(Long id) {
-        Optional<FileInformation> byId = fileUploadRepository.findById(id);
-        return byId.get().getEnvironmentalData();
+    public Set<EnvironmentalData> getResultById(Long id) throws FileNotFoundException {
+        try {
+            Optional<FileInformation> byId = fileUploadRepository.findById(id);
+            if (byId.isPresent()) {
+                return byId.get().getEnvironmentalData();
+            } else {
+                throw new FileNotFoundException("File not found with id: " + id);
+            }
+        } catch (NoSuchElementException e) {
+            throw new FileNotFoundException("File not found with id: " + id);
+
+        }
     }
 
     public List<FileInformation> getAllData() {
         return fileUploadRepository.findAll();
     }
-    public boolean isFileExists(String filename) {
-        FileInformation existingFile = fileUploadRepository.findByFilename(filename);
+    public boolean isFileExists(String fileName) {
+        FileInformation existingFile = fileUploadRepository.findByFileName(fileName);
         return existingFile != null;
     }
 }

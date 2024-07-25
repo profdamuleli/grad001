@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.multipart.MultipartException;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,5 +34,16 @@ public class GlobalExceptionHandler {
         logger.error("Illegal argument exception", ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body("Illegal argument exception: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    protected ResponseEntity<Object> handleEntityNotFound(FileNotFoundException ex) {
+        // Customize error response
+        ApiError apiError = new ApiError(HttpStatus.NOT_FOUND, ex.getMessage(), LocalDateTime.now());
+        return buildResponseEntity(apiError);
+    }
+
+    private ResponseEntity<Object> buildResponseEntity(ApiError apiError) {
+        return new ResponseEntity<>(apiError, apiError.getStatus());
     }
 }

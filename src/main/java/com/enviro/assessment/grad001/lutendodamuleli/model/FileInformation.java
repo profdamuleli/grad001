@@ -1,8 +1,6 @@
 package com.enviro.assessment.grad001.lutendodamuleli.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -13,6 +11,7 @@ public class FileInformation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "file_name")
     private String fileName;
 
     @Lob
