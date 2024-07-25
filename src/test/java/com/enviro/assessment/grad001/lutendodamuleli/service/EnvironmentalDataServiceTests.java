@@ -6,5 +6,5 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 
 @WebMvcTest(controllers = FileUploadController.class)
 @AutoConfigureMockMvc
-public class EnvironmentalDataServiceTest {
+public class EnvironmentalDataServiceTests {
 }
