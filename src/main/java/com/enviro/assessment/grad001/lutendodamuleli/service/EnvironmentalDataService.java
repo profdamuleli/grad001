@@ -24,6 +24,10 @@ public class EnvironmentalDataService {
     private EnvironmentalDataRepository environmentalDataRepository;
 
     public void processAndSaveData(MultipartFile file, String fileName, byte[] fileData) {
+
+        if(isFileExists(fileName)){
+            throw new IllegalArgumentException("File with name " + fileName + " already exists");
+        }
         FileUtil.validateFile(file);
         FileInformation fileInformation = new FileInformation();
         fileInformation.setFileName(fileName);
@@ -52,5 +56,9 @@ public class EnvironmentalDataService {
 
     public List<FileInformation> getAllData() {
         return fileUploadRepository.findAll();
+    }
+    public boolean isFileExists(String filename) {
+        FileInformation existingFile = fileUploadRepository.findByFilename(filename);
+        return existingFile != null;
     }
 }
