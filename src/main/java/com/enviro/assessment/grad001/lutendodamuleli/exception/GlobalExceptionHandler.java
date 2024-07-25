@@ -37,7 +37,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalStateException.class)
-    protected ResponseEntity<Object> handleIllegalArgumentException(IllegalStateException ex) {
+    protected ResponseEntity<Object> handleIllegalStateException(IllegalStateException ex) {
         logger.error("File is empty", ex);
         ApiError apiError = new ApiError(HttpStatus.NO_CONTENT, ex.getMessage(), LocalDateTime.now());
         return buildResponseEntity(apiError);
