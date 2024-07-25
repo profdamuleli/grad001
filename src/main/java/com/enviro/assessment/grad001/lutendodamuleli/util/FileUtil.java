@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ConvertionUtil {
+public class FileUtil {
     public static Set<EnvironmentalData> processFile(MultipartFile file) throws IOException {
         // Implement file processing logic here
         // Example: read, parse, validate, and save data
@@ -41,6 +41,18 @@ public class ConvertionUtil {
                             .build()
                     )
                     .collect(Collectors.toSet());
+        }
+    }
+
+    public static void validateFile(MultipartFile file) {
+        if(file.isEmpty()) {
+            throw new IllegalStateException("File is empty");
+        }
+        if(!file.getContentType().equals("text/plain")) {
+            throw new IllegalArgumentException("Only text files are allowed");
+        }
+        if (file.getSize() > 10 * 1024 * 1024) { // 10MB limit
+            throw new IllegalArgumentException("File size exceeds the limit of 10MB");
         }
     }
 
