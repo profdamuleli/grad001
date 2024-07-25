@@ -61,7 +61,6 @@ public class EnvironmentalDataService {
             }
         } catch (NoSuchElementException e) {
             throw new FileNotFoundException("File not found with id: " + id);
-
         }
     }
 

@@ -13,7 +13,6 @@ import io.swagger.v3.oas.annotations.info.Info;
                 description = "OpenApi documentation for spring application",
                 title = "OpenApi specification - Blastza",
                 version = "1.0"
-
         )
 )
 public class OpenApiConfig {
