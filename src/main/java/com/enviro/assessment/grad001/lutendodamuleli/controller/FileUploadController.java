@@ -3,6 +3,8 @@ package com.enviro.assessment.grad001.lutendodamuleli.controller;
 import com.enviro.assessment.grad001.lutendodamuleli.model.FileInformation;
 import com.enviro.assessment.grad001.lutendodamuleli.model.EnvironmentalData;
 import com.enviro.assessment.grad001.lutendodamuleli.service.EnvironmentalDataService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api")
 public class FileUploadController {
+
+    private static final Logger logger = LoggerFactory.getLogger(FileUploadController.class);
     @Autowired
     private EnvironmentalDataService environmentalDataService;
 
@@ -29,6 +33,7 @@ public class FileUploadController {
 
             return ResponseEntity.ok("File uploaded successfully: " + fileName);
         } catch (IOException e) {
+            logger.info(e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to upload file: " + file.getOriginalFilename());
         }
@@ -40,6 +45,7 @@ public class FileUploadController {
         if (result != null) {
             return ResponseEntity.ok(result);
         } else {
+            logger.info(HttpStatus.NOT_FOUND.toString());
             return ResponseEntity.notFound().build();
         }
     }
