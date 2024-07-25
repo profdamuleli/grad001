@@ -36,6 +36,13 @@ public class GlobalExceptionHandler {
                 .body("Illegal argument exception: " + ex.getMessage());
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    protected ResponseEntity<Object> handleIllegalArgumentException(IllegalStateException ex) {
+        logger.error("File is empty", ex);
+        ApiError apiError = new ApiError(HttpStatus.NO_CONTENT, ex.getMessage(), LocalDateTime.now());
+        return buildResponseEntity(apiError);
+    }
+
     @ExceptionHandler(FileNotFoundException.class)
     protected ResponseEntity<Object> handleEntityNotFound(FileNotFoundException ex) {
         // Customize error response

@@ -38,6 +38,9 @@ public class EnvironmentalDataService {
         Set<EnvironmentalData> environmentalData = null;
         try {
             environmentalData = processFile(file);
+            if(environmentalData.isEmpty()){
+                throw new IllegalStateException("File is Empty");
+            }
         } catch (IOException e) {
             throw new RuntimeException("Failed to process file: " + e.getMessage());
         }
